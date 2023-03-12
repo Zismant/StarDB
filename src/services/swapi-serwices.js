@@ -11,47 +11,79 @@ export default class SwapiService {
     return await res.json();
   };
 
+  _extractId(item) {
+    const idRegExp = /\/([0-9]*)\/$/;
+    return  item.url.match(idRegExp)[1];
+  }
 
-  async getAllPeople() {
+
+  async getPerson(id) {
+    const person = await this.getResource(`/people/${id}/`);
+    return this._transformPerson(person);
+  }
+
+  async getAllPerson() {
     const res = await this.getResource(`/people/`);
-    return res.results;
+    return res.results.map(this._transformPerson);
   }
 
-  getPerson(id) {
-    return this.getResource(`/people/${id}/`);
+  _transformPerson(person) {
+
+    return {
+      id: this._extractId(person),
+      name: person.name,
+      gender: person.gender,
+      birthYear: person.birthYear,
+      eyeColor: person.eyeColor,
+    };
   }
 
+
+  async getPlanet(id) {
+    const planet = await this.getResource(`/planets/${id}/`);
+    return this._transformPlanet(planet);
+  }
 
   async getAllPlanets() {
     const res = await this.getResource(`/planets/`);
-    return res.results;
+    return res.results.map(this._transformPlanet);
   }
 
-  getPlanet(id) {
-    return this.getResource(`/planets/${id}/`);
+  _transformPlanet(planet) {
+
+    return {
+      id: this._extractId(planet),
+      name: planet.name,
+      population: planet.population,
+      rotationPeriod: planet.rotation_period,
+      diameter: planet.diameter,
+    };
   }
 
+
+  async getStarship(id) {
+    const ship = await this.getResource(`/starships/${id}/`)
+    return this._transformStarship(ship);
+  }
 
   async getAllStarships() {
     const res = await this.getResource(`/starships/`);
-    return res.results;
+    return res.results.map(this._transformStarship);
   }
 
-  getStarship(id) {
-    return this.getResource(`/starships/${id}/`);
+  _transformStarship(starship) {
+
+    return {
+      id: this._extractId(starship),
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      costIdCredits: starship.costIdCredits,
+      length: starship.length,
+      crew: starship.crew,
+      passengers: starship.passengers,
+      cargoCapasity: starship.cargoCapasity,
+    };
   }
 
 }
-
-const swapi = new SwapiService();
-
-
-swapi.getPlanet(3).then( (planet) => {
-  console.log(planet);
-})
-
-swapi.getAllStarships().then( (data) => {
-  data.forEach( (item) => {
-    console.log(item.name);
-  });
-})
