@@ -27,7 +27,7 @@ export default class SwapiService {
     return res.results.map(this._transformPerson);
   }
 
-  _transformPerson(person) {
+  _transformPerson = (person) => {
 
     return {
       id: this._extractId(person),
@@ -49,7 +49,7 @@ export default class SwapiService {
     return res.results.map(this._transformPlanet);
   }
 
-  _transformPlanet(planet) {
+  _transformPlanet = (planet) => {
 
     return {
       id: this._extractId(planet),
@@ -71,7 +71,7 @@ export default class SwapiService {
     return res.results.map(this._transformStarship);
   }
 
-  _transformStarship(starship) {
+  _transformStarship = (starship) => {
 
     return {
       id: this._extractId(starship),
