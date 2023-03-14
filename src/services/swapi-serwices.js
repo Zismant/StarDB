@@ -33,8 +33,8 @@ export default class SwapiService {
       id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color,
     };
   }
 
@@ -78,11 +78,11 @@ export default class SwapiService {
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,
-      costIdCredits: starship.costIdCredits,
+      costIdCredits: starship.cost_in_credits,
       length: starship.length,
       crew: starship.crew,
       passengers: starship.passengers,
-      cargoCapasity: starship.cargoCapasity,
+      cargoCapasity: starship.cargo_capasity,
     };
   }
 

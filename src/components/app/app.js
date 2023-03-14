@@ -10,7 +10,7 @@ import RandomPlanet from "../random-planet/random-planet";
 export default class App extends Component {
 
   state = {
-    selectedPerson: 5,
+    selectedPerson: 3,
   };
 
   onPersonSelected = (id) => {
@@ -20,6 +20,7 @@ export default class App extends Component {
   }
 
   render() {
+
     return (
       <div className="stardb-app">
         <Header/>
@@ -32,8 +33,6 @@ export default class App extends Component {
             <PersonDetails personId={this.state.selectedPerson} />
           </div>
         </div>
-
-
       </div>
     );
   };

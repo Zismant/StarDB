@@ -1,24 +1,44 @@
-import React, { Component } from "react";
+import React, {Component, Fragment} from "react";
 
 import "./item-list.css";
 import SwapiService from "../../services/swapi-serwices";
 import Spinner from "../spinner";
+import ErrorIndicator from "../error-iddicator";
 
 export default class ItemList extends Component {
   swapiService = new SwapiService();
 
   state = {
     peopleList: null,
+    loading: true,
+    error: false,
   };
 
   componentDidMount() {
+    this.onLoading();
     this.swapiService
       .getAllPerson()
       .then((peopleList) => {
         this.setState({
           peopleList
         });
-      });
+      })
+      .catch(this.onError);
+
+  }
+
+  onError = () => {
+    this.setState({
+      loading: false,
+      error: true,
+    });
+  }
+
+  onLoading = () => {
+    this.setState({
+      loading: true,
+      error: false,
+    });
   }
 
   renderItem(arr) {
@@ -34,19 +54,24 @@ export default class ItemList extends Component {
   }
 
   render() {
+    console.log(this.state);
 
-    const { peopleList } = this.state;
-
+    const { peopleList, loading, error } = this.state;
     if (!peopleList) {
       return <Spinner />;
     }
-
     const items = this.renderItem(peopleList);
 
+    const errorMessage = error ? <ErrorIndicator /> : null;
+
+
     return(
-      <ul className="item-list list-group">
-        {items}
-      </ul>
+      <Fragment>
+        <ul className="item-list list-group">
+          {items}
+        </ul>
+        {errorMessage}
+      </Fragment>
     );
   }
 }

@@ -50,6 +50,7 @@ export default class RandomPlanet extends Component {
   }
 
   render() {
+
     const { loading, planet, error } = this.state;
 
     const errorMessage = error ? <ErrorIndicator /> : null;
