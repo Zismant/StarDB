@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 
 import "./item-list.css";
 import SwapiService from "../../services/swapi-serwices";
@@ -54,24 +54,24 @@ export default class ItemList extends Component {
   }
 
   render() {
-    console.log(this.state);
 
-    const { peopleList, loading, error } = this.state;
-    if (!peopleList) {
+    const { peopleList,  error } = this.state;
+
+    if (!peopleList && !error) {
       return <Spinner />;
     }
-    const items = this.renderItem(peopleList);
 
-    const errorMessage = error ? <ErrorIndicator /> : null;
+    if (error) {
+      return <ErrorIndicator />;
+    }
+
+    const items = this.renderItem(peopleList);
 
 
     return(
-      <Fragment>
         <ul className="item-list list-group">
           {items}
         </ul>
-        {errorMessage}
-      </Fragment>
     );
   }
 }
