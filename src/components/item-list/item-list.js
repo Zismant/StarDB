@@ -6,21 +6,21 @@ import Spinner from "../spinner";
 import ErrorIndicator from "../error-iddicator";
 
 export default class ItemList extends Component {
-  swapiService = new SwapiService();
 
   state = {
-    peopleList: null,
+    itemList: null,
     loading: true,
     error: false,
   };
 
   componentDidMount() {
+    const { getData } = this.props;
+
     this.onLoading();
-    this.swapiService
-      .getAllPerson()
-      .then((peopleList) => {
+    getData()
+      .then((itemList) => {
         this.setState({
-          peopleList
+          itemList,
         });
       })
       .catch(this.onError);
@@ -42,12 +42,17 @@ export default class ItemList extends Component {
   }
 
   renderItem(arr) {
-    return arr.map(( {id, name} ) => {
+    return arr.map(( item ) => {
+
+      const { id } = item;
+
+      const label = this.props.renderItem(item);
+
       return (
         <li className="list-group-item"
             key={id}
             onClick={ () => this.props.onItemSelected(id) }>
-          {name}
+          {label}
         </li>
       );
     });
@@ -55,9 +60,9 @@ export default class ItemList extends Component {
 
   render() {
 
-    const { peopleList,  error } = this.state;
+    const { itemList,  error } = this.state;
 
-    if (!peopleList && !error) {
+    if (!itemList && !error) {
       return <Spinner />;
     }
 
@@ -65,7 +70,7 @@ export default class ItemList extends Component {
       return <ErrorIndicator />;
     }
 
-    const items = this.renderItem(peopleList);
+    const items = this.renderItem(itemList);
 
 
     return(

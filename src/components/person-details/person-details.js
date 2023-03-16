@@ -34,7 +34,7 @@ export default  class PersonDetails extends Component {
     }
 
     this.swapiService
-      .getPerson(personId)
+      .getPeople(personId)
       .then((person) => {
         this.setState({
           person,
