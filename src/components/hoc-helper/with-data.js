@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import Spinner from "../spinner";
 import ErrorIndicator from "../error-iddicator";
 
@@ -18,17 +18,12 @@ const withData = (View, getData) => {
         .then((data) => {
           this.setState({
             data,
+            loading: false,
+            error: false,
           });
         })
         .catch(this.onError);
 
-    }
-
-    onError = () => {
-      this.setState({
-        loading: false,
-        error: true,
-      });
     }
 
     onLoading = () => {
@@ -38,19 +33,32 @@ const withData = (View, getData) => {
       });
     }
 
+    onError = () => {
+      this.setState({
+        loading: false,
+        error: true,
+      });
+    }
+
     render() {
       const { data,  error, loading } = this.state;
 
-      if (!data && !error) {
-        return <Spinner />;
-      }
+      const viewData = <View {...this.props} data={data} />;
 
-      if (error) {
-        return <ErrorIndicator />;
-      }
+      const errorMessage = error ? <ErrorIndicator /> : null;
+      const spinner = loading ? <Spinner /> : null;
+      const view = !(error || loading) ? viewData : null;
 
-      return <View {...this.props} data={data}/>;
+      return (
+        <Fragment>
+          {view}
+          {errorMessage}
+          {spinner}
+        </Fragment>
+      );
     }
+
+
   };
 };
 
