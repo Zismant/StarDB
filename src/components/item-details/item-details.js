@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 
 import './item-details.css';
+
 import Spinner from "../spinner";
 import ErrorIndicator from "../error-iddicator";
 import ErrorButton from "../error-button";
@@ -16,7 +17,7 @@ const Record = ({ item, field, label }) => {
 
 export {
   Record
-}
+};
 
 export default  class ItemDetails extends Component {
 
@@ -108,7 +109,7 @@ export default  class ItemDetails extends Component {
 
 
     return (
-      <div className="person-details card">
+      <div className="item-details card">
         {itemDetails}
         {spinner}
         {errorMessage}

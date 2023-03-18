@@ -1,20 +1,16 @@
 import React, {Component} from "react";
 
 import './app.css'
+
 import Header from "../header";
 import RandomPlanet from "../random-planet/random-planet";
 import ErrorIndicator from "../error-iddicator";
-import SwapiService from "../../services/swapi-serwices";
 import ErrorBaundry from "../error-baundry";
 import Row from "../row";
-import ItemDetails from "../item-details";
-import {Record} from "../item-details/item-details";
-import PeoplePage from "../people-page";
-import ItemList from "../item-list";
 import ErrorButton from "../error-button";
+import {PlanetList, PersonList, StarshipList, PersonDetails, StarshipDetails, PlanetDetails} from "../sw-components";
 
 export default class App extends Component {
-  swapiService = new SwapiService();
 
   state = {
     showRandomPlanet: true,
@@ -37,8 +33,6 @@ export default class App extends Component {
 
     const { showRandomPlanet, hasError } = this.state;
 
-    const {getPeople, getStarship, getPersonImage,
-          getStarshipImage, getAllPeople} = this.swapiService;
 
     if (hasError) {
       return <ErrorIndicator />;
@@ -46,53 +40,60 @@ export default class App extends Component {
     const planet = showRandomPlanet ? <RandomPlanet /> : null;
 
     const personDetails = (
-      <ItemDetails
-        itemId={11}
-        getData={getPeople}
-        getImageUrl={getPersonImage}>
+      <ErrorBaundry>
 
-        <Record field="gender" label="Gender" />
-        <Record field="eyeColor" label="Eay Color" />
-      </ItemDetails>
+      </ErrorBaundry>
     );
 
     const starshipDetails = (
-      <ItemDetails
-        itemId={5}
-        getData={getStarship}
-        getImageUrl={getStarshipImage}>
+     <ErrorBaundry>
 
-        <Record field="model" label="Model" />
-        <Record field="length" label="Length" />
-        <Record field="costInCredits" label="Cost" />
-      </ItemDetails>
+     </ErrorBaundry>
     );
 
     return (
      <ErrorBaundry>
        <div className="stardb-app">
-         <Header/>
-         {planet}
-         <div className="row mb2 button-row">
-           <button
-             className="toggle-planet btn btn-warning btn-lg"
-             onClick={this.toggleRandomPlanet}>
-             Toggle random Planet
-           </button>
-           <ErrorButton />
-         </div>
+         {/*<Header/>*/}
+         {/*{planet}*/}
+         {/*<div className="row mb2 button-row">*/}
+         {/*  <button*/}
+         {/*    className="toggle-planet btn btn-warning btn-lg"*/}
+         {/*    onClick={this.toggleRandomPlanet}>*/}
+         {/*    Toggle random Planet*/}
+         {/*  </button>*/}
+         {/*  <ErrorButton />*/}
+         {/*</div>*/}
 
-         <PeoplePage />
-         <ItemList
+         {/*<ErrorBaundry>*/}
+         {/*  <PlanetList>*/}
+         {/*    { ({name}) => <span>{name}</span> }*/}
+         {/*  </PlanetList>*/}
+         {/*</ErrorBaundry>*/}
 
-           onItemSelected={() => {}}>
+         <ErrorBaundry>
+           <PersonDetails itemId={5}/>
+         </ErrorBaundry>
 
-           { ({name}) => <span>{name}</span> }
-         </ItemList>
+         <ErrorBaundry>
+           <PlanetDetails itemId={3} />
+         </ErrorBaundry>
 
-         <Row
-          left={personDetails}
-          right={starshipDetails} />
+         <ErrorBaundry>
+           <StarshipDetails itemId={9} />
+         </ErrorBaundry>
+
+
+
+
+         {/*<StarshipList>*/}
+         {/*  { ({name}) => <span>{name}</span> }*/}
+         {/*</StarshipList>*/}
+
+
+         {/*<Row*/}
+         {/* left={personDetails}*/}
+         {/* right={starshipDetails} />*/}
 
        </div>
      </ErrorBaundry>

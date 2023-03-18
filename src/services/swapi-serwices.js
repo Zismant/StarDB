@@ -29,7 +29,7 @@ export default class SwapiService {
     return `${this._imageBase}/planets/${id}.jpg`
   }
 
-  getPeople = async (id) => {
+  getPerson = async (id) => {
     const person = await this.getResource(`/people/${id}/`);
     return this._transformPeople(person);
   }
