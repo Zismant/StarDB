@@ -1,81 +1,34 @@
-import React, {Component} from "react";
 
 import "./item-list.css";
-import Spinner from "../spinner";
-import ErrorIndicator from "../error-iddicator";
+import SwapiService from "../../services/swapi-serwices";
+import withData from "../hoc-helper";
 
-export default class ItemList extends Component {
+const ItemList = (props) =>  {
 
-  state = {
-    itemList: null,
-    loading: true,
-    error: false,
-  };
+  const { data, onItemSelected, children: renderLabel} = props;
 
-  componentDidMount() {
-    const { getData } = this.props;
+  const items = data.map((item) => {
+    const { id } = item;
+    const label = renderLabel(item);
 
-    this.onLoading();
-    getData()
-      .then((itemList) => {
-        this.setState({
-          itemList,
-        });
-      })
-      .catch(this.onError);
-
-  }
-
-  onError = () => {
-    this.setState({
-      loading: false,
-      error: true,
-    });
-  }
-
-  onLoading = () => {
-    this.setState({
-      loading: true,
-      error: false,
-    });
-  }
-
-  renderItem(arr) {
-    return arr.map(( item ) => {
-
-      const { id } = item;
-
-      const label = this.props.children(item);
-
-      return (
-        <li className="list-group-item"
-            key={id}
-            onClick={ () => this.props.onItemSelected(id) }>
-          {label}
-        </li>
-      );
-    });
-  }
-
-  render() {
-
-    const { itemList,  error } = this.state;
-
-    if (!itemList && !error) {
-      return <Spinner />;
-    }
-
-    if (error) {
-      return <ErrorIndicator />;
-    }
-
-    const items = this.renderItem(itemList);
-
-
-    return(
-        <ul className="item-list list-group">
-          {items}
-        </ul>
+    return (
+      <li className="list-group-item"
+          key={id}
+          onClick={ () => onItemSelected(id) }>
+        {label}
+      </li>
     );
-  }
-}
+  });
+
+  return(
+    <ul className="item-list list-group">
+      {items}
+    </ul>
+  );
+};
+
+
+
+const { getAllPeople } = new SwapiService();
+
+export default withData(ItemList, getAllPeople);
