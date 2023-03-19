@@ -86,9 +86,9 @@ export default class App extends Component {
 
 
 
-         {/*<StarshipList>*/}
-         {/*  { ({name}) => <span>{name}</span> }*/}
-         {/*</StarshipList>*/}
+         <ErrorBaundry>
+           <StarshipList />
+         </ErrorBaundry>
 
 
          {/*<Row*/}
