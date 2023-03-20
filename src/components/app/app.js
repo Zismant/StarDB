@@ -10,7 +10,14 @@ import Row from "../row";
 import ErrorButton from "../error-button";
 import {PlanetList, PersonList, StarshipList, PersonDetails, StarshipDetails, PlanetDetails} from "../sw-components";
 
+import SwapiService from "../../services/swapi-serwices";
+import DummySwapiService from "../../services/dummy-swapi-service";
+
+import { SwapiServiceProvider } from '../swapi-service-context';
 export default class App extends Component {
+
+  // swapiService = new SwapiService();
+  swapiService = new DummySwapiService();
 
   state = {
     showRandomPlanet: true,
@@ -53,49 +60,49 @@ export default class App extends Component {
 
     return (
      <ErrorBaundry>
-       <div className="stardb-app">
-         {/*<Header/>*/}
-         {/*{planet}*/}
-         {/*<div className="row mb2 button-row">*/}
-         {/*  <button*/}
-         {/*    className="toggle-planet btn btn-warning btn-lg"*/}
-         {/*    onClick={this.toggleRandomPlanet}>*/}
-         {/*    Toggle random Planet*/}
-         {/*  </button>*/}
-         {/*  <ErrorButton />*/}
-         {/*</div>*/}
+       <SwapiServiceProvider value={this.swapiService}>
+         <div className="stardb-app">
+           {/*<Header/>*/}
+           {/*{planet}*/}
+           {/*<div className="row mb2 button-row">*/}
+           {/*  <button*/}
+           {/*    className="toggle-planet btn btn-warning btn-lg"*/}
+           {/*    onClick={this.toggleRandomPlanet}>*/}
+           {/*    Toggle random Planet*/}
+           {/*  </button>*/}
+           {/*  <ErrorButton />*/}
+           {/*</div>*/}
 
-         {/*<ErrorBaundry>*/}
-         {/*  <PlanetList>*/}
-         {/*    { ({name}) => <span>{name}</span> }*/}
-         {/*  </PlanetList>*/}
-         {/*</ErrorBaundry>*/}
+           <ErrorBaundry>
+             <PlanetList />
+           </ErrorBaundry>
 
-         <ErrorBaundry>
-           <PersonDetails itemId={5}/>
-         </ErrorBaundry>
+           <ErrorBaundry>
+             <PersonDetails itemId={5}/>
+           </ErrorBaundry>
 
-         <ErrorBaundry>
-           <PlanetDetails itemId={3} />
-         </ErrorBaundry>
+           <ErrorBaundry>
+             <PlanetDetails itemId={3} />
+           </ErrorBaundry>
 
-         <ErrorBaundry>
-           <StarshipDetails itemId={9} />
-         </ErrorBaundry>
-
+           <ErrorBaundry>
+             <StarshipDetails itemId={9} />
+           </ErrorBaundry>
 
 
 
-         <ErrorBaundry>
-           <StarshipList />
-         </ErrorBaundry>
+
+           <ErrorBaundry>
+             <StarshipList />
+           </ErrorBaundry>
 
 
-         {/*<Row*/}
-         {/* left={personDetails}*/}
-         {/* right={starshipDetails} />*/}
+           {/*<Row*/}
+           {/* left={personDetails}*/}
+           {/* right={starshipDetails} />*/}
 
-       </div>
+         </div>
+       </SwapiServiceProvider>
      </ErrorBaundry>
     );
   }

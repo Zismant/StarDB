@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import Spinner from "../spinner";
 import ErrorIndicator from "../error-iddicator";
 
-const withData = (View, getData) => {
+const withData = (View) => {
   return class extends Component {
 
     state = {
@@ -14,7 +14,7 @@ const withData = (View, getData) => {
     componentDidMount() {
 
       this.onLoading();
-      getData()
+      this.props.getData()
         .then((data) => {
           this.setState({
             data,
